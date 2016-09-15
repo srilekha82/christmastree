@@ -1,0 +1,270 @@
+<html>
+<style>
+#christmasdiv ul li{
+display : inline;
+
+}
+</style>
+<div id="christmasdiv">
+<ul>
+<li><canvas id="christmas"  width="500" height="600"></canvas></li>
+</ul>
+<ul>
+<li ><button type ="button" id="startDonate">Donate</button></li>
+<li><button type =submit id="endDonate">Donation done</button></li>
+</ul>
+
+</div>
+<script>
+ //need tomake entire thingbetter. everything is hardcoded need todo something about that..thesector oneespecially
+	var canvas = document.getElementById('christmas');
+	var context = canvas.getContext('2d');
+	var lights = [];
+	var src = 'test.png';
+	var twinkle, audio, litLights = 0, decorations = 0, totalLights = 0;
+	function drawStar(cx, cy, outerRadius, innerRadius) {
+		var rot = Math.PI / 2 * 3;
+		var x = cx;
+		var y = cy;
+		var step = Math.PI / 5;
+		context.beginPath();
+		var stx, sty;	
+		context.moveTo(cx, cy - outerRadius)
+		for (i = 0; i < 5; i++) {
+			x = cx + Math.cos(rot) * outerRadius;
+			y = cy + Math.sin(rot) * outerRadius;
+			context.lineTo(x, y)
+			rot += step
+
+			x = cx + Math.cos(rot) * innerRadius;
+			y = cy + Math.sin(rot) * innerRadius;
+			context.lineTo(x, y);
+			if(i == 2){
+				stx=x;sty=y;
+			}
+            rot += step;
+		}
+		context.lineTo(cx, cy - outerRadius);
+		context.closePath();
+		context.lineWidth=5;
+		context.strokeStyle='black';
+		context.stroke();
+		context.fillStyle='yellow';
+		context.fill();
+		return {x:stx,y:sty};
+	}
+	
+	function drawSector(cx,cy){
+		var radius = 250, startAngle = 0.3, endAngle = 0.7;
+
+		for (i=0; i<3; i++){
+			context.beginPath();
+			context.moveTo(cx,cy);
+			context.arc(cx,cy,radius,startAngle*Math.PI,endAngle*Math.PI);
+			context.lineTo(cx,cy);
+			context.closePath();
+			context.strokeStyle='green';
+			context.stroke();
+			context.fillStyle='green';
+			context.fill();
+			radius = radius + 50;
+			startAngle = startAngle +  0.05;
+			endAngle = endAngle - 0.05;
+		}
+	}
+   //need to enhance this function - very clumsy
+	function drawLights(cx,cy){
+		var x = cx-25,y = cy+50, k =1,z=50,z1=80,f=0;
+		totalLights = parseInt(localStorage.getItem("totalLights"));
+		litLights = parseInt(localStorage.getItem("litLights"));
+		
+		var img = new Image();
+		img.onload = function(){
+			for( i = 0; i < 3 ; i++ ){
+			   
+			   for (j = f; j < k; j++){
+				   addToLights(x,y);
+				   context.drawImage(img,x, y);	
+				   x = x + 150	*Math.cos(30);
+				   y = y+150*Math.cos(30);
+				   addToLights(x,y);		
+				   context.drawImage(img,x, y);
+				   x = x + 150*Math.cos(30);
+				   y = y-150*Math.cos(30);
+				   addToLights( x,y);
+				   context.drawImage(img,x, y);
+				}
+			k=k+3;
+			if(i >= 1)
+			{
+			  f=f+2;
+			}
+			x = cx-(i+2)*z;
+			y = cy + (i+2)*z1;
+			z=z-10;
+			z1=z1+10;
+			
+		}
+			localStorage.setItem("totalLights", totalLights);
+		}
+		img.src="test.png";
+    
+	}
+	function addToLights(x,y){
+
+		var lightInfo = {};
+		lightInfo.x = x;
+		lightInfo.y = y;
+		lights.push(lightInfo);
+		return lights;
+
+	}
+	
+	function drawTrunk(cx, cy){
+		context.fillStyle='brown';
+		context.fillRect(cx, cy, 40, 50);
+	}
+	
+    function animate(){
+	   src = src === 'test1.png' ? 'test.png' : 'test1.png';
+	   var img = new Image();
+	   img.onload = function(){
+          for (var i=0; i< lights.length; i++){
+		     context.drawImage(img, lights[i].x, lights[i].y);
+		}
+	    
+	   }
+	   img.src= src;
+	}
+
+    function generateRandomGifts(){
+	  var sectorNumber = getRandomNumber(1,3);
+	  var giftCoord = getXYCoordinates(sectorNumber);
+	  
+	  drawGift(getRandomNumber(1,6), giftCoord);
+	}
+    function drawGift(x, xyCoord){
+	  switch(x){
+	    case 1:
+		    var img = new Image();
+			img.onload = function(){
+			  context.drawImage(img, xyCoord.x, xyCoord.y);
+			}
+		    img.src = "sock.png";
+			break;
+		case 2:
+		var img = new Image();
+			img.onload = function(){
+			  context.drawImage(img, xyCoord.x, xyCoord.y);
+			}
+		    img.src = "snow.png";
+
+		    break;
+		case 3:
+		var img = new Image();
+			img.onload = function(){
+			  context.drawImage(img, xyCoord.x, xyCoord.y);
+			}
+		    img.src = "candy.png";
+
+		   break;
+		case 4:
+		var img = new Image();
+			img.onload = function(){
+			  context.drawImage(img, xyCoord.x, xyCoord.y);
+			}
+		    img.src = "bell.png";
+
+		  break;
+		case 5:
+var img = new Image();
+			img.onload = function(){
+			  context.drawImage(img, xyCoord.x, xyCoord.y);
+			}
+		    img.src = "redball.png";
+		
+		break;
+		 case 6:
+		 var img = new Image();
+			img.onload = function(){
+			  context.drawImage(img, xyCoord.x, xyCoord.y);
+			}
+		    img.src = "blueball.png";
+
+		   break;
+		 default:
+		   
+		    break;
+	  
+	  
+	  }
+	}
+    function getRandomNumber(min, max){
+	 return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	function getXYCoordinates(x){
+	    var xyCoord = {};
+		 switch (x){
+		    case 1:
+			xyCoord.y = getRandomNumber(starCentre.y+10, starCentre.y+250);
+			xyCoord.x = getRandomNumber(starCentre.x - xyCoord.y*Math.tan(54),starCentre.x + xyCoord.y*Math.tan(54));
+			 return xyCoord;
+			 break;
+			case 2:
+			xyCoord.y = getRandomNumber(starCentre.y+10, starCentre.y+310);
+			 xyCoord.x = getRandomNumber(starCentre.x- xyCoord.y*Math.tan(63),starCentre.x + xyCoord.y*Math.tan(63));
+			 return xyCoord;
+			break;
+			case 3:
+			xyCoord.y = getRandomNumber(starCentre.y+10, starCentre.y+360);
+			 xyCoord.x = getRandomNumber(starCentre.x- xyCoord.y*Math.tan(72),starCentre.x + xyCoord.y*Math.tan(72));
+			 return xyCoord;
+			break;
+			default:
+			break;
+			
+		}
+	}
+    var starCentre = drawStar(220, 100, 15, 5);
+    
+	drawSector(starCentre.x, starCentre.y+10);
+	drawLights(starCentre.x, starCentre.y);
+	drawTrunk(starCentre.x-20, starCentre.y+360);
+    document.getElementById('startDonate').onclick = function(){
+	  twinkle = setInterval(animate, 500);
+	  audio =  new Audio('christmasjingle.mp3');
+      audio.play();
+	};
+	document.getElementById('endDonate').onclick = function(){
+	    audio.pause();
+		clearInterval(twinkle);
+		//litLights - value from server
+		if (typeof(Storage) !== "undefined") {
+         litLights = parseInt(localStorage.getItem("numberOfLitLights"));
+		}
+		if(litLights == null)
+		  litLights = 0;
+		var img = new Image();
+		img.onload = function(){
+		   for (var i=0; i< litLights; i++){
+		     context.drawImage(img, lights[i].x, lights[i].y);
+		   }
+		   context.drawImage(img, lights[i].x, lights[i].y);
+		   if(litLights > 5)
+			generateRandomGifts();	 
+		}
+		img.src = "test1.png";
+		var img1 = new Image();
+		img1.onload = function(){
+		   for (var i=litLights; i< lights.length; i++){
+		     context.drawImage(img1, lights[i].x, lights[i].y);
+		   }
+		}
+		img1.src = "test.png";
+		litLights++;
+	    localStorage.setItem("numberOfLitLights", litLights);
+		
+	};
+
+</script>         
+</html>

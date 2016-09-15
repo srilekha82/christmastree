@@ -1,0 +1,37 @@
+<html>
+<canvas id="christmas" ></canvas>
+
+<script>
+ var canvas = document.getElementById('christmas');
+      var context = canvas.getContext('2d');
+     var img = new Image();
+	 var img1 = new Image();
+	 img1.width="32";
+	 img1.height ="32";
+    img.onload = function () {
+	canvas.width = img.width;
+	canvas.height = img.height;
+    context.drawImage(img, 0, 0, img.width, img.height);
+	var a = getOffsetRect(img);
+	console.log(a.top);
+	context.drawImage(img1, img.x,img.y,img1.width, img1.height);
+	
+	
+}
+img1.src = "light-161751_640.png";
+img.src = "christmasTree.png";
+
+function getOffsetRect(elem) {
+    var box = elem.getBoundingClientRect()
+    var body = document.body
+    var docElem = document.documentElement
+    var scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop
+    var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft
+    var clientTop = docElem.clientTop || body.clientTop || 0
+    var clientLeft = docElem.clientLeft || body.clientLeft || 0
+    var top  = box.top +  scrollTop - clientTop
+    var left = box.left + scrollLeft - clientLeft
+    return { top: Math.round(top), left: Math.round(left) }
+}
+</script>         
+</html>
