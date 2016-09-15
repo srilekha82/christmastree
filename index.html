@@ -107,7 +107,7 @@ display : inline;
 		}
 			localStorage.setItem("totalLights", totalLights);
 		}
-		img.src="test.png";
+		img.src="images/test.png";
     
 	}
 	function addToLights(x,y){
@@ -126,7 +126,7 @@ display : inline;
 	}
 	
     function animate(){
-	   src = src === 'test1.png' ? 'test.png' : 'test1.png';
+	   src = src === 'images/test1.png' ? 'images/test.png' : 'images/test1.png';
 	   var img = new Image();
 	   img.onload = function(){
           for (var i=0; i< lights.length; i++){
@@ -150,14 +150,14 @@ display : inline;
 			img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
 			}
-		    img.src = "sock.png";
+		    img.src = "images/sock.png";
 			break;
 		case 2:
 		var img = new Image();
 			img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
 			}
-		    img.src = "snow.png";
+		    img.src = "images/snow.png";
 
 		    break;
 		case 3:
@@ -165,7 +165,7 @@ display : inline;
 			img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
 			}
-		    img.src = "candy.png";
+		    img.src = "images/candy.png";
 
 		   break;
 		case 4:
@@ -173,7 +173,7 @@ display : inline;
 			img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
 			}
-		    img.src = "bell.png";
+		    img.src = "images/bell.png";
 
 		  break;
 		case 5:
@@ -181,7 +181,7 @@ var img = new Image();
 			img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
 			}
-		    img.src = "redball.png";
+		    img.src = "images/redball.png";
 		
 		break;
 		 case 6:
@@ -189,7 +189,7 @@ var img = new Image();
 			img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
 			}
-		    img.src = "blueball.png";
+		    img.src = "images/blueball.png";
 
 		   break;
 		 default:
@@ -232,7 +232,7 @@ var img = new Image();
 	drawTrunk(starCentre.x-20, starCentre.y+360);
     document.getElementById('startDonate').onclick = function(){
 	  twinkle = setInterval(animate, 500);
-	  audio =  new Audio('christmasjingle.mp3');
+	  audio =  new Audio('assets/christmasjingle.mp3');
       audio.play();
 	};
 	document.getElementById('endDonate').onclick = function(){
@@ -253,14 +253,14 @@ var img = new Image();
 		   if(litLights > 5)
 			generateRandomGifts();	 
 		}
-		img.src = "test1.png";
+		img.src = "images/test1.png";
 		var img1 = new Image();
 		img1.onload = function(){
 		   for (var i=litLights; i< lights.length; i++){
 		     context.drawImage(img1, lights[i].x, lights[i].y);
 		   }
 		}
-		img1.src = "test.png";
+		img1.src = "images/test.png";
 		litLights++;
 	    localStorage.setItem("numberOfLitLights", litLights);
 		
