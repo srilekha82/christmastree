@@ -1,27 +1,43 @@
 <html>
+
+<link rel="stylesheet" href="./stylesheets/main.css" type="text/css">
 <style>
-#christmasdiv ul li{
-display : inline;
 
-}
 </style>
-<div id="christmasdiv">
-<ul>
-<li><canvas id="christmas"  width="500" height="600"></canvas></li>
-</ul>
-<ul>
-<li ><button type ="button" id="startDonate">Donate</button></li>
-<li><button type =submit id="endDonate">Donation done</button></li>
-</ul>
-
-</div>
+<body>
+	<div id="container">
+		<div id="header"><img src="./images/nef_logo.png" alt="nefheader"></div>
+		<div id="donationdiv">
+			<!-- <ul> -->
+				<!-- <li> -->
+				<div id="christmasdiv"><canvas id="christmas" width="450" height="600"></canvas></div>
+				<div id="donationbody"><img src="./images/body.png"><br /><img src="./images/donate_today.png" id="startDonate"></div>
+				<!-- </li> -->
+			<!-- </ul> -->
+			<!-- <ul>
+				<li ><button type ="button" id="startDonate">Donate</button></li>
+				<li><button type =submit id="endDonate">Donation done</button></li>
+			</ul> -->
+		</div>
+		<div id="footer"><img src="./images/numbers.png"></div>
+	</div>
+</body>
 <script>
- //need tomake entire thingbetter. everything is hardcoded need todo something about that..thesector oneespecially
 	var canvas = document.getElementById('christmas');
 	var context = canvas.getContext('2d');
 	var lights = [];
-	var src = 'test.png';
-	var twinkle, audio, litLights = 0, decorations = 0, totalLights = 0;
+	var src = 'images/test.png';
+	var twinkle, audio, litLights = 0, decorations = 0;
+
+	// fitToContainer(canvas);
+
+	function fitToContainer(canvas){
+	  canvas.style.width='100%';
+	  canvas.style.height='100%';
+	  canvas.width  = canvas.offsetWidth;
+	  canvas.height = canvas.offsetHeight;
+	}
+	
 	function drawStar(cx, cy, outerRadius, innerRadius) {
 		var rot = Math.PI / 2 * 3;
 		var x = cx;
@@ -72,46 +88,33 @@ display : inline;
 			endAngle = endAngle - 0.05;
 		}
 	}
-   //need to enhance this function - very clumsy
+   
 	function drawLights(cx,cy){
-		var x = cx-25,y = cy+50, k =1,z=50,z1=80,f=0;
-		totalLights = parseInt(localStorage.getItem("totalLights"));
+		var totalLights = 22;
 		litLights = parseInt(localStorage.getItem("litLights"));
 		
 		var img = new Image();
 		img.onload = function(){
-			for( i = 0; i < 3 ; i++ ){
-			   
-			   for (j = f; j < k; j++){
-				   addToLights(x,y);
-				   context.drawImage(img,x, y);	
-				   x = x + 150	*Math.cos(30);
-				   y = y+150*Math.cos(30);
-				   addToLights(x,y);		
-				   context.drawImage(img,x, y);
-				   x = x + 150*Math.cos(30);
-				   y = y-150*Math.cos(30);
-				   addToLights( x,y);
-				   context.drawImage(img,x, y);
-				}
-			k=k+3;
-			if(i >= 1)
-			{
-			  f=f+2;
-			}
-			x = cx-(i+2)*z;
-			y = cy + (i+2)*z1;
-			z=z-10;
-			z1=z1+10;
+		    placeLightsOnTree(3, 50, 0.28, 0.15, img);
+			placeLightsOnTree(6, 150, 0.3, 0.07, img);
+			placeLightsOnTree(8, 225, 0.3, 0.05, img);
+			placeLightsOnTree(5, 300, 0.35, 0.055, img);
 			
-		}
-			localStorage.setItem("totalLights", totalLights);
 		}
 		img.src="images/test.png";
     
 	}
+	function placeLightsOnTree(numberOfLights, radius, theta, thetaIncrement, img){
+	    for(i = 0; i < numberOfLights; i++)
+		{
+		    x = radius*Math.cos(theta*Math.PI)+starCentre.x-20;
+			y = radius *Math.sin(theta*Math.PI) + starCentre.y;
+			addToLights(x,y);
+			context.drawImage(img,x, y);	
+		    theta = theta + thetaIncrement;
+		}
+	}
 	function addToLights(x,y){
-
 		var lightInfo = {};
 		lightInfo.x = x;
 		lightInfo.y = y;
@@ -138,10 +141,11 @@ display : inline;
 	}
 
     function generateRandomGifts(){
-	  var sectorNumber = getRandomNumber(1,3);
+	  var sectorNumber = getRandomNumber(1,4);
+	  console.log(sectorNumber);
 	  var giftCoord = getXYCoordinates(sectorNumber);
 	  
-	  drawGift(getRandomNumber(1,6), giftCoord);
+	  drawGift(getRandomNumber(1,7), giftCoord);
 	}
     function drawGift(x, xyCoord){
 	  switch(x){
@@ -177,15 +181,15 @@ display : inline;
 
 		  break;
 		case 5:
-var img = new Image();
-			img.onload = function(){
+           var img = new Image();
+		   img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
-			}
-		    img.src = "images/redball.png";
+		   }
+		   img.src = "images/redball.png";
 		
 		break;
 		 case 6:
-		 var img = new Image();
+		    var img = new Image();
 			img.onload = function(){
 			  context.drawImage(img, xyCoord.x, xyCoord.y);
 			}
@@ -193,36 +197,54 @@ var img = new Image();
 
 		   break;
 		 default:
-		   
+		   var img = new Image();
+			img.onload = function(){
+			  context.drawImage(img, xyCoord.x, xyCoord.y);
+			}
+		    img.src = "images/hamper.png";
+
 		    break;
 	  
 	  
 	  }
 	}
-    function getRandomNumber(min, max){
-	 return Math.floor(Math.random() * (max - min + 1)) + min;
+    function getRandomNumber(min, max, decimal){
+	if (decimal){
+	    return Math.random() * (max - min) + min;
+	} else {
+	      return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	 
 	}
 	function getXYCoordinates(x){
-	    var xyCoord = {};
-		 switch (x){
+	
+	    switch (x){
+		    
 		    case 1:
-			xyCoord.y = getRandomNumber(starCentre.y+10, starCentre.y+250);
-			xyCoord.x = getRandomNumber(starCentre.x - xyCoord.y*Math.tan(54),starCentre.x + xyCoord.y*Math.tan(54));
-			 return xyCoord;
-			 break;
+			var radius = getRandomNumber(starCentre.y+10, starCentre.y+250) - (starCentre.y+10);
+			return getXYLimits(radius,getRandomNumber(0.35,0.65, true));
 			case 2:
-			xyCoord.y = getRandomNumber(starCentre.y+10, starCentre.y+310);
-			 xyCoord.x = getRandomNumber(starCentre.x- xyCoord.y*Math.tan(63),starCentre.x + xyCoord.y*Math.tan(63));
-			 return xyCoord;
+			 var radius = getRandomNumber(starCentre.y+10, starCentre.y+310) - (starCentre.y+10);
+			 return getXYLimits(radius, getRandomNumber(0.35,0.65, true) );
 			break;
 			case 3:
-			xyCoord.y = getRandomNumber(starCentre.y+10, starCentre.y+360);
-			 xyCoord.x = getRandomNumber(starCentre.x- xyCoord.y*Math.tan(72),starCentre.x + xyCoord.y*Math.tan(72));
-			 return xyCoord;
+			var radius = getRandomNumber(starCentre.y+10, starCentre.y+340) - (starCentre.y+10);
+			return getXYLimits(radius, getRandomNumber(0.35, 0.65, true));
 			break;
-			default:
+			case 4:
+			var xyCoord = {};
+			xyCoord.x = getRandomNumber(starCentre.x-60, starCentre.x+60);
+			xyCoord.y = getRandomNumber(starCentre.y+360, starCentre.y +410);
+			return xyCoord;
 			break;
 			
+		}
+		function getXYLimits(r, theta){
+		    var xyCoord = {};
+			xyCoord.x = r*Math.cos(theta*Math.PI)+starCentre.x-20;
+			xyCoord.y = r*Math.sin(theta*Math.PI) +starCentre.y+10;
+			console.log(r, theta);
+			return xyCoord;
 		}
 	}
     var starCentre = drawStar(220, 100, 15, 5);
@@ -230,6 +252,7 @@ var img = new Image();
 	drawSector(starCentre.x, starCentre.y+10);
 	drawLights(starCentre.x, starCentre.y);
 	drawTrunk(starCentre.x-20, starCentre.y+360);
+	context.restore();
     document.getElementById('startDonate').onclick = function(){
 	  twinkle = setInterval(animate, 500);
 	  audio =  new Audio('assets/christmasjingle.mp3');
@@ -252,6 +275,7 @@ var img = new Image();
 		   context.drawImage(img, lights[i].x, lights[i].y);
 		   if(litLights > 5)
 			generateRandomGifts();	 
+			context.save();
 		}
 		img.src = "images/test1.png";
 		var img1 = new Image();
@@ -259,12 +283,13 @@ var img = new Image();
 		   for (var i=litLights; i< lights.length; i++){
 		     context.drawImage(img1, lights[i].x, lights[i].y);
 		   }
+		   context.save();
 		}
 		img1.src = "images/test.png";
 		litLights++;
 	    localStorage.setItem("numberOfLitLights", litLights);
 		
 	};
-
+//generateRandomGifts();
 </script>         
 </html>

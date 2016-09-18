@@ -1,0 +1,52 @@
+body {
+  margin: 0px;
+  background-color: #990000;
+  background-image: url(../images/snowflakes.gif);
+  background-repeat: repeat;
+  background-attachment: fixed;
+  background-position: center top;
+}
+
+#container {
+  width: 982px;
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+  padding: 0px;
+  background-color: transparent;
+  border: 0px;
+  overflow: hidden;
+}
+
+#header {
+  /* width: 962px; */
+  height: 103px;
+  margin: 10px 0px 2px 0px;
+  padding: 0px;
+  background-color: white;
+}
+
+#donationdiv {
+  width: 982px; */
+  height: 600px;
+  margin: 0px;
+  background: white;
+  border: 5px solid red;
+  /* border: 0px; */
+  /* overflow: hidden; */
+}
+
+#christmasdiv {
+  display:inline-block;
+}
+
+#donationbody {
+  float: right;
+  display:inline-block;
+  margin-top: 10px;
+}
+
+#footer {
+  padding: 0px 0px 0px 10px;
+}
