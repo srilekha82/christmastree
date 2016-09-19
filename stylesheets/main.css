@@ -80,6 +80,10 @@ ul, li {
   }
 }
 
+#startDonate {
+  cursor: pointer;
+}
+
 #thankYouForm {
   display: none;
   float: right;
@@ -170,7 +174,9 @@ ul, li {
     width:70%;
 }
 .form-style-3  input[type=submit],
-.form-style-3  input[type=button]{
+.form-style-3  input[type=button],
+input[type=back]
+{
   background: #990000;
   border: 1px solid #750404;
   padding: 5px 15px 5px 15px;
@@ -183,10 +189,11 @@ ul, li {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   font-weight: bold;
+  cursor: pointer;
 }
 .required{
-    color:red;
-    font-weight:normal;
+  color:red;
+  font-weight:normal;
 }
 /** END **/
 

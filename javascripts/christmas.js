@@ -1,7 +1,9 @@
 var canvas, context, lights = [], starCentre;
 var src = 'images/notlit.png';
-var twinkle, audio, litLights = 0, decorations = 0, done = false, load = false;;
+var twinkle, audio, litLights = 7, decorations = 0, done = false, load = false;;
 var oldregion = 0, oldgift = 0;
+var giftCoordArr = [{x: 131, y: 229 },{x: 142, y: 274},{x: 211, y: 268 },{x: 213, y:127 },{x:154, y: 372},{x: 246, y: 432 }
+,{x:213, y: 440},{x: 120, y: 435 }];
 
 function initialize () {
   canvas = document.getElementById('christmas');
@@ -10,18 +12,45 @@ function initialize () {
   starCentre = drawStar(220, 50, 15, 5);
 
   drawSector(starCentre.x, starCentre.y+10);
+  litLights = parseInt(localStorage.getItem("numberOfLitLights"));
+  if(isNaN(litLights) || litLights == 0)
+      localStorage.setItem("numberOfLitLights",7);
   drawLights(starCentre.x, starCentre.y);
 
   drawTrunk(starCentre.x-20, starCentre.y+360);
-    drawGifts();
-    document.getElementById('startDonate').onclick = function(){
+
+  for (i=0;i<5; i++) {
+    drawGift(getRandomNumber(1,6), giftCoordArr[i]);
+  }
+  for(i=5;i<8; i++) {
+    drawGift(getRandomNumber(7,9), giftCoordArr[i]);
+  }
+  drawGifts();
+
+  document.getElementById('startDonate').onclick = function() {
     twinkle = setInterval(animate, 500);
     audio =  new Audio('assets/christmasjingle.mp3');
-      audio.play();
+
+    if (typeof audio.loop == 'boolean') {
+      audio.loop = true;
+    }
+    else {
+      audio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+      }, false);
+
+      audio.addEventListener('paused', function() {
+        this.currentTime = 0;
+        this.play();
+      }, false);
+    }
+
+    audio.play();
   };
 
   document.getElementById('endDonate').onclick = function(){
-      audio.pause();
+    audio.pause();
     clearInterval(twinkle);
     //litLights - value from server
     if (typeof(Storage) !== "undefined") {
@@ -91,8 +120,8 @@ function drawStar(cx, cy, outerRadius, innerRadius) {
   context.fillStyle='yellow';
   context.fill();
 
-  context.shadowBlur = 10;
-  context.shadowColor = "black";
+  //context.shadowBlur = 10;
+  //context.shadowColor = "black";
 
   return {x:stx,y:sty};
 }
@@ -245,6 +274,7 @@ function drawTrunk(cx, cy){
   }
   oldregion = sectorNumber;
   var giftCoord = getXYCoordinates(sectorNumber);
+  //console.log(giftCoord.x,giftCoord.y);
   if (sectorNumber < 4){
      
     drawGift(getRandomNumber(1,6), giftCoord);
@@ -351,7 +381,7 @@ function getXYCoordinates(x){
   switch (x) {
     
     case 1:
-      var radius = getRandomNumber(starCentre.y+10, starCentre.y+250) - (starCentre.y+10);
+      var radius = getRandomNumber(starCentre.y+10, starCentre.y+260) - (starCentre.y+10);
 
       return getXYLimits(radius,getRandomNumber(0.35,0.65, true));
     case 2:
@@ -398,6 +428,11 @@ $('#startDonate').click(function () {
 $('#endDonate').click(function() {
   $('#donationForm').hide('slow', function () {
     $('#thankYouForm').show( 400 );
+  });
+});
+$('#donateAgain').click(function() {
+  $('#thankYouForm').hide('slow', function () {
+    $('#donationbody').show( 400 );
   });
 });
 
