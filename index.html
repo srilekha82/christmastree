@@ -1,27 +1,76 @@
-<html>
+<!DOCTYPE html>
 
-<link rel="stylesheet" href="./stylesheets/main.css" type="text/css">
-<style>
+<html xml:lang="en-gb" lang="en-gb" slick-uniqueid="3" class="uk-notouch" style="height: auto;">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <meta name="author" content="Super User">
+	  <meta name="description" content="Empowering Children with Disabilities and Special Education needs.">
+	  <title>Nathan Ebanks Foundation</title>
+	  <link href="http://nefjamaica.org/index.php/component/content/article?id=article" rel="canonical" />
+	  <link href="http://nefjamaica.org/templates/wt_plussone_jom/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
 
-</style>
-<body>
-	<div id="container">
-		<div id="header"><img src="./images/nef_logo.png" alt="nefheader"></div>
-		<div id="donationdiv">
-			<!-- <ul> -->
-				<!-- <li> -->
+		<link rel="stylesheet" href="./stylesheets/main.css" type="text/css">
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	</head>
+	<body>
+		<div id="container">
+			<div id="header"><img src="./images/nef_logo.png" alt="nefheader"></div>
+			<div id="donationdiv">
 				<div id="christmasdiv"><canvas id="christmas" width="450" height="600"></canvas></div>
-				<div id="donationbody"><img src="./images/body.png"><br /><img src="./images/donate_today.png" id="startDonate"></div>
-				<!-- </li> -->
-			<!-- </ul> -->
-			<!-- <ul>
-				<li ><button type ="button" id="startDonate">Donate</button></li>
-				<li><button type =submit id="endDonate">Donation done</button></li>
-			</ul> -->
-		</div>
-		<div id="footer"><img src="./images/numbers.png"></div>
-	</div>
+				<div id="donationbody">
+					<img src="./images/body.png">
+					<hr class="faded" />
+					<div>
+						<p class="bold-red">How Can you help Us</p>
+						This end of year, the Nathan Ebanks Fondation has created a special Christmas tree. Join us to light up the tree as follows:
+						<div>
+							<div>
+								<ul>
+									<li>$5 - light</li>
+									<li>$20 - Ornament</li>
+									<li>$50 - Golden Star</li>
+									<li>$200 - Gift Undet the Tree</li>
+								</ul>
+							</div>
+							<div><img src="./images/donate_today.png" id="startDonate"></div>
+						</div>
+						<p>Your donation will help us provide the essential programmes and services for 2016 and inspire hope for these children and their families</p>
+					</div>
+				</div>
+				<div id="donationForm">
+					<!-- <img src="./images/donation-form1.png" /> -->
 
-	<script src="./javascripts/christmas.js" type="text/javascript"></script>
-</body>
+					<div class="form-style-3">
+						<!-- <form> -->
+						<fieldset><legend>Donor Information</legend>
+						<label for="field1"><span>Name <span class="required">*</span></span><input type="text" class="input-field" name="field1" value="" /></label>
+						<label for="field1"><span>Organization <span class="required">*</span></span><input type="text" class="input-field" name="field1" value="" /></label>
+						<label for="field1"><span>Address <span class="required">*</span></span><input type="text" class="input-field" name="field1" value="" /></label>
+						<label for="field1"><span>Country <span class="required">*</span></span><input type="text" class="input-field" name="field1" value="" /></label>
+						<label for="field1"><span>Zip <span class="required">*</span></span><input type="text" class="input-field" name="field1" value="" /></label>
+						<label for="field2"><span>Email <span class="required">*</span></span><input type="email" class="input-field" name="field2" value="" /></label>
+						<label for="field3"><span>Phone <span class="required">*</span></span><input type="text" class="input-field" name="field3" value="" /></label>
+						</fieldset>
+						<fieldset><legend>Donation Information</legend>
+						<label for="field6"><span>Amount <span class="required">*</span></span>
+							<input type="radio" name="rd_amount" class="input-large" value="5""> $5.00&nbsp;
+							<input type="radio" name="rd_amount" class="input-large" value="5""> $20.00&nbsp;
+							<input type="radio" name="rd_amount" class="input-large" value="5""> $50.00&nbsp;
+							<input type="radio" name="rd_amount" class="input-large" value="5""> $200.00
+						</label>
+						<label for="field3"><span>Payment method <span class="required">*</span></span><input type="text" class="input-field" name="field3" value="" /></label>
+						<label for="field6"><span>Comment <span class="required">*</span></span><textarea name="field6" class="textarea-field"></textarea></label>
+						<label><span>&nbsp;</span><input type="submit" value="Submit" id="endDonate" /></label>
+						</fieldset>
+						<!-- </form> -->
+					</div>
+				</div>
+			</div>
+			<div id="footer"><img class="stretch" src="./images/numbers.png" /></div>
+		</div>
+
+		<script src="./javascripts/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="./javascripts/christmas.js" type="text/javascript"></script>
+	</body>
 </html>

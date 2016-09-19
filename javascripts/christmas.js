@@ -7,7 +7,7 @@ function initialize () {
   canvas = document.getElementById('christmas');
   context = canvas.getContext('2d');
 
-  starCentre = drawStar(220, 100, 15, 5);
+  starCentre = drawStar(220, 50, 15, 5);
 
   drawSector(starCentre.x, starCentre.y+10);
   drawLights(starCentre.x, starCentre.y);
@@ -320,46 +320,46 @@ function drawTrunk(cx, cy){
 }
 function getXYCoordinates(x){
 
-    switch (x){
-      
-      case 1:
-    var radius = getRandomNumber(starCentre.y+10, starCentre.y+250) - (starCentre.y+10);
-
-    return getXYLimits(radius,getRandomNumber(0.35,0.65, true));
-    case 2:
-     var radius = getRandomNumber(starCentre.y+10, starCentre.y+310) - (starCentre.y+10);
-     return getXYLimits(radius, getRandomNumber(0.35,0.65, true) );
-    break;
-    case 3:
-    var radius = getRandomNumber(starCentre.y+10, starCentre.y+360) - (starCentre.y+10);
-    return getXYLimits(radius, getRandomNumber(0.35, 0.65, true));
-    break;
-    case 4:
-    var xyCoord = {};
-    xyCoord.x = getRandomNumber(starCentre.x-60, starCentre.x+60);
-    xyCoord.y = getRandomNumber(starCentre.y+360, starCentre.y +410);
-    return xyCoord;
-    break;
+  switch (x) {
     
-  }
-  function getXYLimits(r, theta){
-      var xyCoord = {};
-      if (oldradius == r ){
-        if(r < 350)
-           r = r+ 10;
-         else 
-           r = r - 10;
-      }
-         
+    case 1:
+      var radius = getRandomNumber(starCentre.y+10, starCentre.y+250) - (starCentre.y+10);
 
-       if (oldtheta == theta){
-          if (theta < 0.64)
-            theta = theta + 0.02;
-           else 
-             theta = theta - 0.02;
-       }
-       olradius = r;
-       oldtheta = theta;
+      return getXYLimits(radius,getRandomNumber(0.35,0.65, true));
+    case 2:
+       var radius = getRandomNumber(starCentre.y+10, starCentre.y+310) - (starCentre.y+10);
+       return getXYLimits(radius, getRandomNumber(0.35,0.65, true) );
+      break;
+    case 3:
+      var radius = getRandomNumber(starCentre.y+10, starCentre.y+360) - (starCentre.y+10);
+      return getXYLimits(radius, getRandomNumber(0.35, 0.65, true));
+      break;
+    case 4:
+      var xyCoord = {};
+      xyCoord.x = getRandomNumber(starCentre.x-60, starCentre.x+60);
+      xyCoord.y = getRandomNumber(starCentre.y+360, starCentre.y +410);
+      return xyCoord;
+      break;
+  }
+
+  function getXYLimits(r, theta){
+    var xyCoord = {};
+    if (oldradius == r ){
+      if(r < 350)
+         r = r+ 10;
+      else 
+         r = r - 10;
+    }
+       
+
+    if (oldtheta == theta){
+      if (theta < 0.64)
+        theta = theta + 0.02;
+      else 
+        theta = theta - 0.02;
+    }
+    olradius = r;
+    oldtheta = theta;
     xyCoord.x = r*Math.cos(theta*Math.PI)+starCentre.x-20;
     xyCoord.y = r*Math.sin(theta*Math.PI) +starCentre.y+10;
     return xyCoord;
@@ -370,9 +370,20 @@ function drawGifts(){
   decorations = parseInt(localStorage.getItem("numberOfGifts"));
   if(!isNaN(decorations)){
     for(i=0; i<decorations; i++)
-     generateRandomGifts();
+      generateRandomGifts();
   }
   
 }
 
 initialize ();
+
+$('#startDonate').click(function () {
+  $('#donationbody').toggle();
+  $('#donationForm').toggle();
+});
+
+$('#endDonate').click(function() {
+  $('#donationbody').toggle();
+  $('#donationForm').toggle();
+});
+
