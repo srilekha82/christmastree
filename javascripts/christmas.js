@@ -1,7 +1,7 @@
 var canvas, context, lights = [], starCentre;
 var src = 'images/notlit.png';
 var twinkle, audio, litLights = 0, decorations = 0, done = false, load = false;;
-var oldradius, oldtheta;
+var oldregion = 0, oldgift = 0;
 
 function initialize () {
   canvas = document.getElementById('christmas');
@@ -78,7 +78,7 @@ function drawStar(cx, cy, outerRadius, innerRadius) {
     x = cx + Math.cos(rot) * innerRadius;
     y = cy + Math.sin(rot) * innerRadius;
     context.lineTo(x, y);
-    if(i == 2){
+    if(i == 2) {
       stx=x;sty=y;
     }
           rot += step;
@@ -86,10 +86,14 @@ function drawStar(cx, cy, outerRadius, innerRadius) {
   context.lineTo(cx, cy - outerRadius);
   context.closePath();
   context.lineWidth=5;
-  context.strokeStyle='black';
+  context.strokeStyle='#ffc821';
   context.stroke();
   context.fillStyle='yellow';
   context.fill();
+
+  context.shadowBlur = 10;
+  context.shadowColor = "black";
+
   return {x:stx,y:sty};
 }
 
@@ -103,14 +107,23 @@ function drawSector(cx,cy){
     context.arc(cx,cy,radius,startAngle*Math.PI,endAngle*Math.PI);
     context.lineTo(cx,cy);
     context.closePath();
-    context.strokeStyle='green';
+    context.strokeStyle='#396f40';
     context.stroke();
-    context.fillStyle='green';
+
+    var grd = context.createRadialGradient(238, 50, 10, 238, 50, 300);
+
+    grd.addColorStop(0, '#069e19');
+      // dark blue
+    grd.addColorStop(1, '#396f40');
+
+    // context.fillStyle='green';
+    context.fillStyle = grd;
+    context.fill();
 
     context.shadowColor = '#999';
     
-      context.shadowOffsetX = 0;
-    context.shadowOffsetY = 15  ; 
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 15 ; 
  //context.shadowBlur = 20;
     context.fill();
     radius = radius + 50;
@@ -224,6 +237,13 @@ function drawTrunk(cx, cy){
 
   function generateRandomGifts(){
   var sectorNumber = getRandomNumber(1,4);
+  if(oldregion == sectorNumber){
+    if(sectorNumber < 3)
+      sectorNumber = sectorNumber + 2;
+    else
+      sectorNumber = sectorNumber - 2;
+  }
+  oldregion = sectorNumber;
   var giftCoord = getXYCoordinates(sectorNumber);
   if (sectorNumber < 4){
      
@@ -235,6 +255,14 @@ function drawTrunk(cx, cy){
     
 }
   function drawGift(x, xyCoord){
+    if(oldgift == x){
+      if(x == 2 )
+        x = x+2;
+       if(x == 4)
+        x = x+2;
+      
+    }
+    oldgift = x;
   switch(x){
     case 1:
       var img = new Image();
@@ -344,22 +372,6 @@ function getXYCoordinates(x){
 
   function getXYLimits(r, theta){
     var xyCoord = {};
-    if (oldradius == r ){
-      if(r < 350)
-         r = r+ 10;
-      else 
-         r = r - 10;
-    }
-       
-
-    if (oldtheta == theta){
-      if (theta < 0.64)
-        theta = theta + 0.02;
-      else 
-        theta = theta - 0.02;
-    }
-    olradius = r;
-    oldtheta = theta;
     xyCoord.x = r*Math.cos(theta*Math.PI)+starCentre.x-20;
     xyCoord.y = r*Math.sin(theta*Math.PI) +starCentre.y+10;
     return xyCoord;
@@ -378,12 +390,15 @@ function drawGifts(){
 initialize ();
 
 $('#startDonate').click(function () {
-  $('#donationbody').toggle();
-  $('#donationForm').toggle();
+  $('#donationbody').hide( 'slow', function () {
+    $('#donationForm').show();
+  });
 });
 
 $('#endDonate').click(function() {
-  $('#donationbody').toggle();
-  $('#donationForm').toggle();
+  $('#donationForm').hide('slow', function () {
+    $('#thankYouForm').show( 400 );
+  });
 });
 
+ 

@@ -80,7 +80,18 @@ ul, li {
   }
 }
 
+#thankYouForm {
+  display: none;
+  float: right;
+  height: auto;
+}
+
+#thankYouForm img {
+  margin-top: 85px;
+}
+
 #footer img {
+  margin-top: 4px;
   width: 100%; 
 }
 
