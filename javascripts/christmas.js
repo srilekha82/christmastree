@@ -152,7 +152,7 @@ function drawSector(cx,cy){
     context.shadowColor = '#999';
     
     context.shadowOffsetX = 0;
-    context.shadowOffsetY = 15 ; 
+    context.shadowOffsetY = 5; 
  //context.shadowBlur = 20;
     context.fill();
     radius = radius + 50;
