@@ -417,7 +417,7 @@ function drawGifts(){
   
 }
 
-initialize ();
+// initialize ();
 
 $('#startDonate').click(function () {
   $('#donationbody').hide( 'slow', function () {
@@ -436,4 +436,179 @@ $('#donateAgain').click(function() {
   });
 });
 
- 
+
+// Draw image
+
+canvas = document.getElementById("christmas");
+var ctx = canvas.getContext("2d");
+var image = document.getElementById("source");
+
+ctx.drawImage(image, 0, -60, 470, 702, 0, 0, 401, 602);
+
+var color = document.getElementById('color');
+function pick(event) {
+  var x = event.layerX;
+  var y = event.layerY;
+  var pixel = ctx.getImageData(x, y, 1, 1);
+  var data = pixel.data;
+  var rgba = 'rgba(' + data[0] + ',' + data[1] +
+  ',' + data[2] + ',' + (data[3] / 255) + ')' + x + y;
+  color.style.background =  rgba;
+  color.textContent = rgba;
+}
+canvas.addEventListener('mousemove', pick);
+
+function generateRandomCoordinate() {
+  var width = 1;
+  var height = 1;
+  var x = Math.floor(Math.random()*450);
+  var y = Math.floor(Math.random() * 600);
+  var pixelData = ctx.getImageData(x, y + 20, width, height).data;
+  if ((pixelData[3]/255) > 0.7 && pixelData[1] > 60) {
+    return [x, y];
+  } else {
+    return generateRandomCoordinate();
+  }
+}
+
+var numOfMaxDonations = 50;
+var coords = [];
+for (var i = 0; i < numOfMaxDonations; i++) {
+  var coordinate = generateRandomCoordinate();
+  coords.push(coordinate);
+  drawBulb(coordinate, coords.length - 1);
+}
+console.log(coords);
+
+function drawBulb(coor, index) {
+  var imageObj = new Image();
+  imageObj.onload = function () {
+    ctx.drawImage(imageObj, coor[0], coor[1], 20, 28.7);
+  };
+  var imageSources = ['./images/redbulb-off.png'];
+  var selectedImageSource = imageSources[Math.floor(Math.random() * imageSources.length)];
+  imageObj.src = selectedImageSource;
+
+  if (selectedImageSource.indexOf('red') > -1) {
+    coords[index].push('redoff', imageObj);
+  } else {
+    coords[index].push('silveroff', imageObj);
+  }
+}
+
+function randomlyHighlightBulbs(coords) {
+  coords.forEach(function (coord) {
+    if (!coord[4]) {
+      (function (coord) {
+        coord[5] = setInterval(function () {
+          var imageSource;
+          if (coord[2].indexOf('red') > -1) {
+            if (coord[2].indexOf('on') > -1) {
+              imageSource = './images/redbulb-off.png';
+              coord[2] = 'redoff';
+            } else if (coord[2].indexOf('off') > -1) {
+              imageSource = './images/redbulb-on.png';
+              coord[2] = 'redon';
+            }
+          } else if (coord[2].indexOf('silver') > -1) {
+            if (coord[2].indexOf('on') > -1) {
+              imageSource = './images/silverbulb-off.png';
+              coord[2] = 'silveroff';
+            } else if (coord[2].indexOf('off') > -1) {
+              imageSource = './images/silverbulb-on.png';
+              coord[2] = 'silveron';
+            }
+          }
+          // console.log(coord[0], coord[1], coord[2], imageSource);
+          coord[3].src = imageSource;
+        }, ((Math.random() * 100) + 500));
+      })(coord);
+    }
+  });
+}
+
+randomlyHighlightBulbs(coords);
+
+function pickTopMostCoordinate() {
+  var width = 1;
+  var height = 1;
+  var x = 450;
+  var y = 600;
+
+  for (var i = 0; i < y; i++) {
+    for (var j = 0; j < x; j++) {
+      var pixelData = ctx.getImageData(j, i, width, height).data;
+      if ((pixelData[3]/255) > 0.7 && pixelData[1] > 60) {
+        return [j, i];
+      }
+    }
+  }
+}
+
+function drawStarAtTop() {
+  var imageObj = new Image();
+  var topMostCoordinate = pickTopMostCoordinate();
+  console.log(topMostCoordinate);
+  imageObj.onload = function() {
+    ctx.drawImage(imageObj, topMostCoordinate[0] - 65, topMostCoordinate[1] - 64, 129, 128);
+  };
+  imageObj.src = './images/starimage.png';
+}
+
+setTimeout(function () {
+  // drawStarAtTop();
+}, 0);
+
+function toggleAllBulbs(glow) {
+  coords.forEach(function(coord) {
+    clearInterval(coord[5]);
+    if (glow) {
+      coord[3].src = coord[3].src.replace('off', 'on');
+    } else {
+      coord[3].src = coord[3].src.replace('on', 'off');
+    }
+  });
+}
+
+/*
+setTimeout(function () {
+  toggleAllBulbs(true);
+}, 10000);
+
+setTimeout(function () {
+  toggleAllBulbs(false);
+}, 30000);
+*/
+
+function randomlyAddAGift() {
+  var width = 1;
+  var height = 1;
+  var x = Math.random()* 390 + 10;
+  var y = Math.random()*20 + 540;
+  var gifts = ['hamper', 'hamper1', 'hamper2'];
+  var numOfDonations = parseInt(localStorage.getItem('numDonations'), 10);
+
+  if (numOfDonations % 5 === 0) {
+    var imageObj = new Image();
+    imageObj.onload = function() {
+      ctx.drawImage(imageObj, x, y, 50, 38);
+    };
+    imageObj.src = './images/' + gifts[Math.floor(Math.random() * gifts.length)] + '.png';
+  }
+}
+
+function glowABulb() {
+  var bulbToGlow = coords[Math.floor(Math.random() * coords.length)];
+  clearInterval(bulbToGlow[5]);
+  if (bulbToGlow[3].src.indexOf('off') > -1) {
+    bulbToGlow[3].src.replace('off', 'on');
+    bulbToGlow[4] = true;
+    var prevNumDonations = parseInt(localStorage.getItem('numDonations'), 10) || 0;
+    localStorage.setItem('numDonations', prevNumDonations++);
+    randomlyAddAGift();
+  }
+}
+
+setInterval( function () {
+  glowABulb();
+}, 1000);
