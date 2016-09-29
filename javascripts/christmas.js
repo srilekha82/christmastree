@@ -2,7 +2,7 @@ var canvas, ctx, audio,
 numOfDonationsGiven = parseInt(localStorage.getItem('donationsGiven'), 10) || 0,
 giftsGenerated = parseInt(localStorage.getItem('giftsGenerated'), 10) || 0,
 coords = [],
-numOfStars = 5,
+numOfStars = 10,
 numOfMaxDonations = 50;
 
 function initCanvas() {
@@ -145,7 +145,7 @@ function drawStars() {
     starCoordinate = generateRandomCoordinateOnTree(true);
     (function (imageObj, coord) {
       imageObj.onload = function() {
-        ctx.drawImage(imageObj, coord[0] - 65, coord[1] - 60, 129, 128);
+        ctx.drawImage(imageObj, coord[0] - 65, coord[1] - 60, 80, 80);
       };
     })(imageObj, starCoordinate);
     imageObj.src = 'images/starimage.png';
