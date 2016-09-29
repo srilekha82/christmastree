@@ -44,7 +44,7 @@ function drawLight(coord, index) {
   imageObj.onload = function () {
     ctx.drawImage(imageObj, coord[0], coord[1], 20, 28.7);
   };
-  var imageSources = ['./images/redbulb-off.png', './images/silverbulb-off.png'];
+  var imageSources = ['images/redbulb-off.png', 'images/silverbulb-off.png'];
   imageObj.src = imageSources[Math.floor(Math.random() * imageSources.length)];
   coords[index].imgObj = imageObj;
 }
@@ -82,15 +82,15 @@ function randomlyHighlightBulbs() {
           var imageSource;
           if (coord.imgObj.src.indexOf('red') > -1) {
             if (coord.imgObj.src.indexOf('on') > -1) {
-              imageSource = './images/redbulb-off.png';
+              imageSource = 'images/redbulb-off.png';
             } else if (coord.imgObj.src.indexOf('off') > -1) {
-              imageSource = './images/redbulb-on.png';
+              imageSource = 'images/redbulb-on.png';
             }
           } else if (coord.imgObj.src.indexOf('silver') > -1) {
             if (coord.imgObj.src.indexOf('on') > -1) {
-              imageSource = './images/silverbulb-off.png';
+              imageSource = 'images/silverbulb-off.png';
             } else if (coord.imgObj.src.indexOf('off') > -1) {
-              imageSource = './images/silverbulb-on.png';
+              imageSource = 'images/silverbulb-on.png';
             }
           }
           // console.log(coord[0], coord[1], coord[2], imageSource);
@@ -135,7 +135,7 @@ function randomlyAddAGift() {
   imageObj.onload = function() {
     ctx.drawImage(imageObj, x, y, 50, 38);
   };
-  imageObj.src = './images/' + gifts[Math.floor(Math.random() * gifts.length)] + '.png';
+  imageObj.src = 'images/' + gifts[Math.floor(Math.random() * gifts.length)] + '.png';
 }
 
 function drawStars() {
@@ -148,7 +148,7 @@ function drawStars() {
         ctx.drawImage(imageObj, coord[0] - 65, coord[1] - 60, 129, 128);
       };
     })(imageObj, starCoordinate);
-    imageObj.src = './images/starimage.png';
+    imageObj.src = 'images/starimage.png';
   }
 }
 
